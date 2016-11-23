@@ -54,17 +54,27 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>jivesoftware</groupId>
+			<groupId>org.igniterealtime.smack</groupId>
 			<artifactId>smack</artifactId>
-			<version>3.2.2</version>
-			<scope>system</scope>
-            <systemPath>${basedir}/lib/smack.jar</systemPath>
+			<version>3.2.1</version>
 		</dependency>
-		
+
 		<dependency>
-			<groupId>com.kenai.jbosh</groupId>
+			<groupId>org.igniterealtime.smack</groupId>
+			<artifactId>smackx</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.igniterealtime.jbosh</groupId>
 			<artifactId>jbosh</artifactId>
-			<version>0.6.0</version>
+			<version>0.8.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>xmlpull</groupId>
+			<artifactId>xmlpull</artifactId>
+			<version>1.1.3.1</version>
 		</dependency>
 	</dependencies>
 </project>

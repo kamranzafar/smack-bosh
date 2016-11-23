@@ -20,6 +20,12 @@
 
 package org.jivesoftware.smack;
 
+import org.igniterealtime.jbosh.*;
+import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.packet.XMPPError;
+import org.jivesoftware.smack.util.StringUtils;
+
 import java.io.IOException;
 import java.io.PipedReader;
 import java.io.PipedWriter;
@@ -27,28 +33,6 @@ import java.io.Writer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-
-import org.jivesoftware.smack.Connection;
-import org.jivesoftware.smack.ConnectionCreationListener;
-import org.jivesoftware.smack.ConnectionListener;
-import org.jivesoftware.smack.PacketCollector;
-import org.jivesoftware.smack.Roster;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.packet.Packet;
-import org.jivesoftware.smack.packet.Presence;
-import org.jivesoftware.smack.packet.XMPPError;
-import org.jivesoftware.smack.util.StringUtils;
-
-import com.kenai.jbosh.BOSHClient;
-import com.kenai.jbosh.BOSHClientConfig;
-import com.kenai.jbosh.BOSHClientConnEvent;
-import com.kenai.jbosh.BOSHClientConnListener;
-import com.kenai.jbosh.BOSHClientRequestListener;
-import com.kenai.jbosh.BOSHClientResponseListener;
-import com.kenai.jbosh.BOSHException;
-import com.kenai.jbosh.BOSHMessageEvent;
-import com.kenai.jbosh.BodyQName;
-import com.kenai.jbosh.ComposableBody;
 
 /**
  * Creates a connection to a XMPP server via HTTP binding.
@@ -349,6 +333,8 @@ public class BOSHConnection extends Connection {
             }
         }
 
+        System.out.println(response + " - " + sessionID);
+
         // Create the roster if it is not a reconnection.
         if (this.roster == null) {
             this.roster = new Roster(this);
@@ -371,6 +357,8 @@ public class BOSHConnection extends Connection {
         if (config.isDebuggerEnabled() && debugger != null) {
             debugger.userHasLogged(user);
         }
+
+//        shutdown(new Presence(Presence.Type.unavailable));
     }
 
     public void loginAnonymously() throws XMPPException {

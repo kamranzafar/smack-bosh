@@ -28,11 +28,11 @@ import org.jivesoftware.smack.sasl.SASLMechanism.Success;
 import org.jivesoftware.smack.util.PacketParserUtils;
 import org.xmlpull.v1.XmlPullParser;
 
-import com.kenai.jbosh.AbstractBody;
-import com.kenai.jbosh.BOSHClientResponseListener;
-import com.kenai.jbosh.BOSHMessageEvent;
-import com.kenai.jbosh.BodyQName;
-import com.kenai.jbosh.ComposableBody;
+import org.igniterealtime.jbosh.AbstractBody;
+import org.igniterealtime.jbosh.BOSHClientResponseListener;
+import org.igniterealtime.jbosh.BOSHMessageEvent;
+import org.igniterealtime.jbosh.BodyQName;
+import org.igniterealtime.jbosh.ComposableBody;
 import org.xmlpull.mxp1.MXParser;
 
 /**
