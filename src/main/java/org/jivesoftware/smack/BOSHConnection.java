@@ -2,15 +2,15 @@
  * $RCSfile$
  * $Revision: 11325 $
  * $Date: 2009-10-15 14:50:55 +0100 (qui, 15 Out 2009) $
- *
+ * <p>
  * Copyright 2009 Jive Software.
- *
+ * <p>
  * All rights reserved. Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,7 +37,7 @@ import java.util.concurrent.ThreadFactory;
 /**
  * Creates a connection to a XMPP server via HTTP binding.
  * This is specified in the XEP-0206: XMPP Over BOSH.
- * 
+ *
  * @see Connection
  * @author Guenther Niess
  */
@@ -103,7 +103,7 @@ public class BOSHConnection extends Connection {
 
     /**
      * Create a HTTP Binding connection to a XMPP server.
-     * 
+     *
      * @param https true if you want to use SSL
      *             (e.g. false for http://domain.lt:7070/http-bind).
      * @param host the hostname or IP address of the connection manager
@@ -122,7 +122,7 @@ public class BOSHConnection extends Connection {
 
     /**
      * Create a HTTP Binding connection to a XMPP server.
-     * 
+     *
      * @param config The configuration which is used for this connection.
      */
     public BOSHConnection(BOSHConfiguration config) {
@@ -181,13 +181,13 @@ public class BOSHConnection extends Connection {
                 }
             }
             String route = config.getRoute();
-            if(route==null){
+            if (route == null) {
                 // Send the session creation request
                 client.send(ComposableBody.builder()
                         .setNamespaceDefinition("xmpp", XMPP_BOSH_NS)
                         .setAttribute(BodyQName.createWithPrefix(XMPP_BOSH_NS, "version", "xmpp"), "1.0")
                         .build());
-            }else{
+            } else {
                 // Send the session creation request
                 client.send(ComposableBody.builder()
                         .setNamespaceDefinition("xmpp", XMPP_BOSH_NS)
@@ -203,16 +203,16 @@ public class BOSHConnection extends Connection {
         synchronized (this) {
             if (!connected) {
                 try {
-                    wait(SmackConfiguration.getPacketReplyTimeout()*6);
+                    wait(SmackConfiguration.getPacketReplyTimeout() * 6);
+                } catch (InterruptedException e) {
                 }
-                catch (InterruptedException e) {}
             }
         }
 
         // If there is no feedback, throw an remote server timeout error
         if (!connected && !done) {
             done = true;
-            String errorMessage = "Timeout reached for the connection to " 
+            String errorMessage = "Timeout reached for the connection to "
                     + getHost() + ":" + getPort() + ".";
             throw new XMPPException(
                     errorMessage,
@@ -317,7 +317,7 @@ public class BOSHConnection extends Connection {
             response = new NonSASLAuthentication(this).authenticate(username, password, resource);
         }
 
-		// Indicate that we're now authenticated.
+        // Indicate that we're now authenticated.
         authenticated = true;
         anonymous = false;
 
@@ -332,8 +332,6 @@ public class BOSHConnection extends Connection {
                 this.user += "/" + resource;
             }
         }
-
-        System.out.println(response + " - " + sessionID);
 
         // Create the roster if it is not a reconnection.
         if (this.roster == null) {
@@ -357,12 +355,10 @@ public class BOSHConnection extends Connection {
         if (config.isDebuggerEnabled() && debugger != null) {
             debugger.userHasLogged(user);
         }
-
-//        shutdown(new Presence(Presence.Type.unavailable));
     }
 
     public void loginAnonymously() throws XMPPException {
-    	if (!isConnected()) {
+        if (!isConnected()) {
             throw new IllegalStateException("Not connected to server.");
         }
         if (authenticated) {
@@ -373,8 +369,7 @@ public class BOSHConnection extends Connection {
         if (config.isSASLAuthenticationEnabled() &&
                 saslAuthentication.hasAnonymousAuthentication()) {
             response = saslAuthentication.authenticateAnonymously();
-        }
-        else {
+        } else {
             // Authenticate using Non-SASL
             response = new NonSASLAuthentication(this).authenticateAnonymously();
         }
@@ -457,8 +452,7 @@ public class BOSHConnection extends Connection {
         for (ConnectionListener listener : getConnectionListeners()) {
             try {
                 listener.connectionClosed();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 // Catch and print any exception so we can recover
                 // from a faulty listener and finish the shutdown process
                 e.printStackTrace();
@@ -491,8 +485,7 @@ public class BOSHConnection extends Connection {
                     .build());
             // Wait 150 ms for processes to clean-up, then shutdown.
             Thread.sleep(150);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // Ignore.
         }
 
@@ -500,22 +493,19 @@ public class BOSHConnection extends Connection {
         if (readerPipe != null) {
             try {
                 readerPipe.close();
-            }
-            catch (Throwable ignore) { /* ignore */ }
+            } catch (Throwable ignore) { /* ignore */ }
             reader = null;
         }
         if (reader != null) {
             try {
                 reader.close();
-            }
-            catch (Throwable ignore) { /* ignore */ }
+            } catch (Throwable ignore) { /* ignore */ }
             reader = null;
         }
         if (writer != null) {
             try {
                 writer.close();
-            }
-            catch (Throwable ignore) { /* ignore */ }
+            } catch (Throwable ignore) { /* ignore */ }
             writer = null;
         }
 
@@ -539,7 +529,7 @@ public class BOSHConnection extends Connection {
 
     /**
      * Send a HTTP request to the connection manager with the provided body element.
-     * 
+     *
      * @param body the body which will be sent.
      */
     protected void send(ComposableBody body) throws BOSHException {
@@ -560,7 +550,7 @@ public class BOSHConnection extends Connection {
      * Processes a packet after it's been fully parsed by looping through the
      * installed packet collectors and listeners and letting them examine the
      * packet to see if they are a match with the filter.
-     * 
+     *
      * @param packet the packet to process.
      */
     protected void processPacket(Packet packet) {
@@ -586,17 +576,18 @@ public class BOSHConnection extends Connection {
 
         // Initialize a empty writer which discards all data.
         writer = new Writer() {
-                public void write(char[] cbuf, int off, int len) { /* ignore */}
-                public void close() { /* ignore */ }
-                public void flush() { /* ignore */ }
-            };
+            public void write(char[] cbuf, int off, int len) { /* ignore */}
+
+            public void close() { /* ignore */ }
+
+            public void flush() { /* ignore */ }
+        };
 
         // Initialize a pipe for received raw data.
         try {
             readerPipe = new PipedWriter();
             reader = new PipedReader(readerPipe);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // Ignore
         }
 
@@ -663,8 +654,7 @@ public class BOSHConnection extends Connection {
         for (ConnectionListener listener : getConnectionListeners()) {
             try {
                 listener.connectionClosedOnError(e);
-            }
-            catch (Exception e2) {
+            } catch (Exception e2) {
                 // Catch and print any exception so we can recover
                 // from a faulty listener
                 e2.printStackTrace();
@@ -676,7 +666,7 @@ public class BOSHConnection extends Connection {
     /**
      * A listener class which listen for a successfully established connection
      * and connection errors and notifies the BOSHConnection.
-     * 
+     *
      * @author Guenther Niess
      */
     private class BOSHConnectionListener implements BOSHClientConnListener {
@@ -701,8 +691,7 @@ public class BOSHConnection extends Connection {
                         for (ConnectionCreationListener listener : getConnectionCreationListeners()) {
                             listener.connectionCreated(connection);
                         }
-                    }
-                    else {
+                    } else {
                         try {
                             if (wasAuthenticated) {
                                 connection.login(
@@ -711,29 +700,25 @@ public class BOSHConnection extends Connection {
                                         config.getResource());
                             }
                             for (ConnectionListener listener : getConnectionListeners()) {
-                                 listener.reconnectionSuccessful();
+                                listener.reconnectionSuccessful();
                             }
-                        }
-                        catch (XMPPException e) {
+                        } catch (XMPPException e) {
                             for (ConnectionListener listener : getConnectionListeners()) {
                                 listener.reconnectionFailed(e);
-                           }
+                            }
                         }
                     }
-                }
-                else {
+                } else {
                     if (connEvent.isError()) {
                         try {
                             connEvent.getCause();
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             notifyConnectionError(e);
                         }
                     }
                     connected = false;
                 }
-            }
-            finally {
+            } finally {
                 synchronized (connection) {
                     connection.notifyAll();
                 }
@@ -757,5 +742,9 @@ public class BOSHConnection extends Connection {
                 listenerWrapper.notifyListener(packet);
             }
         }
+    }
+
+    public String getSessionID() {
+        return sessionID;
     }
 }

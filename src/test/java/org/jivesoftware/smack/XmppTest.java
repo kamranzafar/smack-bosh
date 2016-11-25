@@ -1,5 +1,7 @@
 package org.jivesoftware.smack;
 
+import org.jivesoftware.smack.packet.Presence;
+
 /**
  * Created by kamran on 23/11/16.
  */
@@ -12,6 +14,11 @@ public class XmppTest {
 
         connection.connect();
 
-        connection.login("kamran", "xmpp", "");
+        connection.login("kamran", "xmpp");
+
+        System.out.println("JID: " + connection.getUser());
+        System.out.println("SID: " + connection.getSessionID());
+
+        connection.shutdown(new Presence(Presence.Type.unavailable));
     }
 }
